@@ -21,16 +21,17 @@ def sign_up(request):
     password = data["password"]
     try:
         user = User.objects.get(username=login)
+        return JsonResponse({"message": "login already "})
     except:
         try:
             user = User.objects.get(email=email)
-            return JsonResponse({"message":"email "})
+            return JsonResponse({"message":"email already "})
         except:
             user = User(username=login,
                         email=email,
                         password=password)
             user.save()
-            return render(request, "index.html", {})
+            return JsonResponse({"message":"all right "})
     # html = render(request, "index.html", {})
     # print(html.content)
     # return HttpResponse(html)
