@@ -192,14 +192,16 @@ def add_user_to_chat(request):
     try:
         chat = Chats.objects.get(id=int(chat_id))
     except:
-        return JsonResponse({"message"@csrf_exempt
+        return JsonResponse({"message" : "error"})
+
+@csrf_exempt
 def get_messages(request):
     ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
     try:
         session = Sessions.objects.get(ip=ip)
     except:
         return redirect('/sign_in')
-    : "error"})
+
     user = session.user
     try:
         ch_us = Chats_Users.objects.get(id_user = user,id_chat = chat)
@@ -232,4 +234,4 @@ def get_messages(request):
 #     data = json.loads(data)
 #     chat_id = data["id"]
 #     try:
-#         m = Messages.objects.get()
+#         m = M
