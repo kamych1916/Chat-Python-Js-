@@ -192,7 +192,9 @@ def add_user_to_chat(request):
     try:
         chat = Chats.objects.get(id=int(chat_id))
     except:
-        return JsonResponse({"message"@csrf_exempt
+        return JsonResponse({"message"@csrf_exempt})
+
+
 def get_messages(request):
     ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
     try:

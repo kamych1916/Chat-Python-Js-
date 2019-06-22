@@ -1,6 +1,4 @@
-function auth(mail, log, pass1, pass2) {
-    if(pass1 != pass2) alert('пороли не совпадают!');
-    else{
+function auth(log, pass) {
       var xhr = new XMLHttpRequest();
 
       // 2. Конфигурируем его: GET-запрос на URL 'phones.json'
@@ -9,7 +7,7 @@ function auth(mail, log, pass1, pass2) {
       // 3. Отсылаем запрос
       data = {
         login: log,
-        password: pass1,
+        password: pass,
       }
       data = JSON.stringify(data);
 
@@ -24,8 +22,9 @@ function auth(mail, log, pass1, pass2) {
             var data = JSON.parse(xhr.responseText);
             console.log(data);
             //if() alert('wrong!')
+            //if() alert('wrong!')
+            //if() alert('wrong!')
           }
       }
       xhr.send(data);
-    }
 }
