@@ -1,0 +1,71 @@
+.mytext{
+    width:85%;border:0;padding:10px;background:white;
+}
+.text{
+    width:100%;display:flex;flex-direction:column; word-wrap:break-word;
+}
+.text > p:first-of-type{
+    width:100%;color:silver;margin-bottom:-7px;margin-top:auto; word-wrap:break-word;
+}
+.text > p:last-of-type{
+    width:100%;margin-top:0;margin-bottom:auto;line-height: 43px;font-size: 15px;  word-wrap:break-word;
+}
+.text-l{
+    word-wrap:break-word;
+    float:left;padding-right:10px;
+}
+.text-r{
+    word-wrap:break-word;
+    float:right;padding-left:10px;
+}
+
+.msj-rta{
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    background:white;
+}
+.msj{
+    float:left;background:white;
+}
+.frame{
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    background:white;
+    overflow: hidden;
+    height:450px;
+}
+.infoChat{
+    width: 100%; height: 40px; background: white; margin-left: auto; margin-right: auto; margin-top:50px;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+body > div > div > div:nth-child(2) > span{
+    background: whitesmoke;padding: 10px;font-size: 21px;border-radius: 50%;
+}
+body > div > div > div.msj-rta.macro{
+    margin:auto;margin-left:1%;
+}
+ul {
+    width:100%;
+    list-style-type: none;
+    padding:18px;
+    position:absolute;
+    bottom:0px;
+    display:flex;
+    flex-direction: column;
+    top:0;
+    overflow-y:scroll;
+}
+
+input:focus{
+    outline: none;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #d4d4d4;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: #d4d4d4;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: #d4d4d4;
+}
+:-moz-placeholder { /* Firefox 18- */
+    color: #d4d4d4;
+}

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+      <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <title>TestTask</title>
+  </head>
+  <body style="background:whitesmoke;">
+
+<!-- no additional media querie or css is required -->
+<div class="container">
+        <div class="col justify-content-center align-items-center">
+            <div class="col-sm-8 infoChat ">
+                <p style="padding: 8px;">Чат с (кто то)</p>
+            </div>
+            <div class="col-sm-8 frame" style="margin-left: auto; margin-right: auto; margin-top:10px">
+                <ul></ul>
+            </div>
+            <div class="col-sm-7" style="margin-left: auto; margin-right: auto; margin-top:10px">
+                <div class="msj-rta">
+                        <input class="mytext" placeholder="Напишите сообщение.."/>
+                        <button type="button" class="btn btn-secondary btn-sm lol" style="width: 60px">
+                            <svg id="i-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                <path d="M2 16 L30 2 16 30 12 20 Z M30 2 L12 20" />
+                            </svg>
+                        </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+	    <script src="{% static 'js/chat.js' %}"></script>
+
+  </body>
+</html>

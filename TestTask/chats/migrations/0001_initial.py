@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Chats',
+            name='chats',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100, verbose_name='название')),
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.CharField(max_length=100, verbose_name='текст')),
                 ('checked', models.BooleanField(default=False)),
-                ('id_chat', models.ForeignKey(null=True, on_delete=False, to='chats.Chats', verbose_name='чат')),
+                ('id_chat', models.ForeignKey(null=True, on_delete=False, to='chats.chats', verbose_name='чат')),
                 ('id_user', models.ForeignKey(null=True, on_delete=False, to='chats.Users', verbose_name='пользователь')),
             ],
             options={
@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
             name='Chats_Users',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('id_chat', models.ForeignKey(null=True, on_delete=False, to='chats.Chats', verbose_name='чат')),
+                ('id_chat', models.ForeignKey(null=True, on_delete=False, to='chats.chats', verbose_name='чат')),
                 ('id_user', models.ForeignKey(null=True, on_delete=False, to='chats.Users', verbose_name='пользователь')),
             ],
             options={

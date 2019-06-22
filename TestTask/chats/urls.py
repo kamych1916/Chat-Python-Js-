@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.urls import path
-from .views import about, contact, sign_in_view, sign_up
+from .views import sign_in_view, sign_in, sign_up_view, sign_up, chat_view
 
 urlpatterns = [
-    path('about/', about),
-    path('contact/', contact),
     path('', sign_in_view),
-    path('sign_up', sign_up),
+    path('sign_up/', sign_up_view),
+    path('POST_sign_up/', sign_up),
+    path('POST_sign_in/', sign_in),
+    path('chat/', chat_view),
 ]

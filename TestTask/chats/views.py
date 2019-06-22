@@ -1,18 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 import json
 
-# Create your views here.
 
+@csrf_exempt
+def sign_in(request):
+    data = request.body.decode()
+    data = json.loads(data)
+    login = data["login"]
+    password = data["password"]
 
 
 def sign_in_view(request):
-    return render(request, "index.html", {})
-    # html = render(request, "index.html", {})
-    # print(html.content)
-    # return HttpResponse(html)
+    return render(request, "chats/signin.html", {})
 
+@csrf_exempt
 def sign_up(request):
     data = request.body.decode()
     data = json.loads(data)
@@ -32,15 +36,17 @@ def sign_up(request):
                         password=password)
             user.save()
             return JsonResponse({"message":"all right "})
-    # html = render(request, "index.html", {})
-    # print(html.content)
-    # return HttpResponse(html)
+
+def sign_up_view(request):
+    return render(request, "chats/signup.html", {})
+
+@csrf_exempt
+def chat(request):
+    data = request.body.decode()
+    data = json.loads(data)
+    login = data["login"]
+    password = data["password"]
 
 
-
-def about(request):
-    return HttpResponse("<h2>О сайте</h2>")
-
-
-def contact(request):
-    return HttpResponse("<h2>Контакты</h2>")
+def chat_view(request):
+    return render(request, "chats/chat.html", {})
