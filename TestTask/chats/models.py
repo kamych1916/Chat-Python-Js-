@@ -31,6 +31,7 @@ class Messages(models.Model):
     id_user = models.ForeignKey(User, null=True, on_delete=False, verbose_name="пользователь")
     text = models.CharField(max_length=100, verbose_name="текст")
     checked = models.BooleanField(default=False)
+    time = models.CharField(max_length=100, verbose_name="текст", null=True)
 
     def __str__(self):
         return self.name
