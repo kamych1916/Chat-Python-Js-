@@ -31,6 +31,7 @@ class Messages(models.Model):
     id_user = models.ForeignKey(User, null=True, on_delete=False, verbose_name="пользователь")
     text = models.CharField(max_length=100, verbose_name="текст")
     checked = models.BooleanField(default=False)
+    time = models.CharField(max_length=100, verbose_name="текст", null=True)
 
     def __str__(self):
         return self.name
@@ -39,12 +40,13 @@ class Messages(models.Model):
         verbose_name = "Сообщение"
         verbose_name_plural = "Сообщения"
 
-# class Sessions(models.Model):
-#     user = models.ForeignKey(User, null=True, on_delete=False, verbose_name="пользователь")
-#
-#     def __str__(self):
-#         return self.name
-#
-#     class Meta():
-#         verbose_name = "Сессия"
-#         verbose_name_plural = "Сессии"
+class Sessions(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=False, verbose_name="пользователь")
+    ip = models.CharField(max_length=100, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta():
+        verbose_name = "Сессия"
+        verbose_name_plural = "Сессии"
