@@ -19,7 +19,7 @@
 <!-- no additional media querie or css is required -->
 <div class="container">
         <div class="row justify-content-center align-items-center" style="height:100vh">
-            <div class="col-4">
+            <div class="col-5">
                 <div class="card">
                 	<span style="margin: 10px auto">Регистрация</span>
                     <div class="card-body">
@@ -41,6 +41,7 @@
                                 <input type="password" class="form-control" name="password" id="pass2">
                             </div>
                             <button type="button" id="sendlogin" class="btn btn-primary" onclick="regist(this.form.mail.value, this.form.log.value, this.form.pass1.value,this.form.pass2.value)">Зарегистрироваться</button>
+                            <a href="http://127.0.0.1:8000/sign_in/" class="float-right mt-2">Авторизоваться</a>
                         </form>
                     </div>
                 </div>

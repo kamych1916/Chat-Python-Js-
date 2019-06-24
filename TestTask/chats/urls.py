@@ -16,4 +16,5 @@ urlpatterns = [
     path('add_user_to_chat/', add_user_to_chat),
     path('get_messages/', get_messages),
     path('get_unchecked_messages/', get_unchecked_messages),
+    path('add_num_chat/', add_num_chat),
 ]

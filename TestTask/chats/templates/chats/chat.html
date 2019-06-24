@@ -22,7 +22,9 @@
 
 <!-- no additional media querie or css is required -->
 <div class="container" >
-        <div class="row justify-content-center">
+
+        <div class="row justify-content-center" >
+
                 <div class="col-sm-3">
                     <div class="infoChat">
                         <button type="button" class="btn" style="display: flex; margin: 0 auto;" data-toggle="modal" data-target="#exampleModal">
@@ -30,11 +32,11 @@
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="ChatModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Введите наименование чата</h5>
+                                <h5 class="modal-title" id="ChatModalLabel">Введите наименование чата</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>
@@ -43,7 +45,7 @@
                                 <input type="text" class="form-control" name="username" id="nameChat">
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="AddChat(nameChat.value)">Добавить</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="AddChat(nameChat.value)">Добавить</button>
                               </div>
                             </div>
                           </div>
@@ -59,27 +61,27 @@
             <div class="col justify-content-center align-items-center">
                 <div class="col-sm-12 infoChat ">
                     <div style="padding: 8px;">
-                        <span >наименование чата: </span>
+                        <span>наименование чата: <input type="text" class="takeNameChat2" value="error" style="background: white; border: 0" disabled> </span>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn float-right" style="padding: 0 5px 0 5px" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" class="btn float-right" style="padding: 0 5px 0 5px" data-toggle="modal" data-target="#UserModal">
                           добавить пользователей
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Введите логин пользователя</h5>
+                                <h5 class="modal-title" id="UserModalLabel">Введите логин пользователя</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div>
                               <div class="modal-body">
-                                <input type="text" class="form-control" name="username" id="log">
+                                <input type="text" class="form-control" name="username" id="loginUser">
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Добавить</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="AddUserChat(loginUser.value)">Добавить</button>
                               </div>
                             </div>
                           </div>
@@ -94,13 +96,37 @@
                 <div class="col-sm-7" style="margin-left: auto; margin-right: auto; margin-top:10px">
                     <div class="msj-rta">
                             <input class="mytext" id="mytxt" placeholder="Напишите сообщение.."/>
-                            <button type="button" class="btn btn-secondary btn-sm lol" style="width: 60px" onclick="SendMessage(mytxt.value)">
+                            <button type="button" class="btn btn-secondary btn-sm "  style="width: 60px" onclick="SendMessage(mytxt.value)">
                                 <svg id="i-send" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M2 16 L30 2 16 30 12 20 Z M30 2 L12 20" />
                                 </svg>
                             </button>
                     </div>
                 </div>
+            </div>
+            <div>
+                <button type="button" class="log_out" data-toggle="modal" data-target="#LogOutModal" >
+                    <svg id="i-signout" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M28 16 L8 16 M20 8 L28 16 20 24 M11 28 L3 28 3 4 11 4" />
+                    </svg>
+                </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="LogOutModal" tabindex="-1" role="dialog" aria-labelledby="LogOutModalabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="LogOutModalabel">Вы действительно хотите выйти системы?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body" style="margin: 0 auto">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" >Нет</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="logOut()">Да</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
             </div>
         </div>
 

@@ -118,7 +118,7 @@ def get_chats(request):
     try:
         session = Sessions.objects.get(ip=ip)
     except:
-        return redirect('/sign_in')
+        return JsonResponse({"errorMessage":"0"})
     user = session.user
     resp = []
     for ch_us in Chats_Users.objects.filter(id_user=user):
@@ -130,7 +130,6 @@ def get_chats(request):
         except:
             message = None
 
-
         if message != None:
             last_message_text = message.text
             if message.checked:
@@ -138,7 +137,7 @@ def get_chats(request):
             else:
                 last_message_status = "unchecked"
             u = message.id_user
-            last_message_user = user.username
+            last_message_user = u.username
         else:
             last_message_text = ""
             last_message_status = ""
@@ -151,6 +150,7 @@ def get_chats(request):
             "last_message_status": last_message_status,
             "last_message_user": last_message_user
         }
+        print("last_message_status: ",last_message_status)
         resp.append(cht)
     return JsonResponse({"chats":resp})
 
@@ -164,13 +164,11 @@ def add_message(request):
     data = request.body.decode()
     data = json.loads(data)
     text = data["text"]
-    id = data["id"]
-    chat = Chats.objects.get(id=int(id))
     user = session.user
     time = datetime.datetime.now()
     time = str(time.hour) +"."+str(time.minute)
     message = Messages(
-        id_chat = chat,
+        id_chat = Chats.objects.get(id=int(session.chat)),
         id_user = user,
         text = text,
         time = time
@@ -222,12 +220,9 @@ def get_messages(request):
         session = Sessions.objects.get(ip=ip)
     except:
         return redirect('/sign_in')
-    data = request.body.decode()
-    data = json.loads(data)
-    chat_id = data["id"]
 
     try:
-        m = Messages.objects.filter(id_chat=Chats.objects.get(id=int(chat_id)))
+        m = Messages.objects.filter(id_chat=Chats.objects.get(id=int(session.chat)))
     except:
         m = []
     resp = []
@@ -243,8 +238,15 @@ def get_messages(request):
                         }
         resp.append(message_resp)
         if not mess.checked:
-            mess.checked = True
-            mess.save()
+            s = mess.us_check
+            if not (str(session.user.id) in s.split()):
+                mess.us_check += " " + str(session.user.id)
+                mess.save()
+                s = mess.us_check
+                if len(s.split()) == Chats_Users.objects.filter(id_chat = Chats.objects.get(id=int(session.chat))).count():
+                    mess.checked = True
+                    mess.save()
+    print(resp)
     return JsonResponse({"messages":resp})
 
 @csrf_exempt
@@ -255,40 +257,67 @@ def get_unchecked_messages(request):
     except:
         return redirect('/sign_in')
     user = session.user
-    data = request.body.decode()
-    data = json.loads(data)
-    chat_id= data["id"]
-    chat=Chats.objects.get(id=chat_id)
-    um = None
+
+
+    if session.id != "":
+        chat=Chats.objects.get(id=int(session.chat))
+    else:
+        return JsonResponse({"message":"ch ne vibran"})
+    um = []
     start = time.monotonic()
     now = time.monotonic()
     x = 0
-    while ((um == None or list(um) == []) and x<10):
+    while ((um == None or list(um) == []) and x<60):
         try:
-            um = Messages.objects.filter(id_user=user,checked=False,id_chat=chat)
+            um = list(Messages.objects.filter(checked=False,id_chat=chat))#Chats.objects.get(id=int(session.chat))))
 
         except:
-            um = None
+            um = []
 
-        if um != None:
+        if um != []:
             resp = []
             for mes in um:
-                us = mes.id_user
-                my = (us == user)
-                un_mes = {
-                            "text": mes.text,
-                            "user": us.username,
-                            "time": mes.time,
-                            "my": str(my)
-                        }
-                mes.checked = True
-                mes.save()
-                resp.append(un_mes)
+
+                s = mes.us_check
+                if not (str(session.user.id) in s.split()):
+                    mes.us_check += " " + str(session.user.id)
+                    mes.save()
+                    us = mes.id_user
+
+                    my = (us == user)
+                    un_mes = {
+                        "text": mes.text,
+                        "user": us.username,
+                        "time": mes.time,
+                        "my": str(my)
+                    }
+                    resp.append(un_mes)
+                    s = mes.us_check
+                    if len(s.split()) == Chats_Users.objects.filter(id_chat=chat).count():
+                        mes.checked = True
+                        mes.save()
+                else:
+                    um = []
+
 
             if resp != []:
+
                 return JsonResponse({"messages":resp})
         now = time.monotonic()
         x= '{:>9.2f}'.format(now - start)
         x = float(x)
-        #print(x)
-    return JsonResponse({"":""})
+
+    return JsonResponse({"messages":[]})
+
+@csrf_exempt
+def add_num_chat(request):
+    ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    try:
+        session = Sessions.objects.get(ip=ip)
+    except:
+        return redirect('/sign_in')
+    data = request.body.decode()
+    data = json.loads(data)
+    session.chat = data["id"]
+    session.save()
+    return JsonResponse({"message":"all right"})
