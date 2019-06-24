@@ -1,45 +1,48 @@
-var me = {};
-
-var you = {};
-
-function insertListChat(nameChat, lastMess_text, lastMess_status, lastMess_userName){
+//Функция добавления чата в список чатов.
+function insertListChat(id, nameChat, lastMess_text, lastMess_status, lastMess_userName){
     var control = "";
 
-    if (lastMess_status == "не прочитано"){
+    if (lastMess_status == "unchecked"){
         control =
-                  '<a href="" style="outline: none; text-decoration: none; color: black">' +
-                  '<li style="background:whitesmoke;">' +
-                        '<div style="word-wrap:break-word;  margin-top:10px; padding: 0 0 0px 15px;">' +
-                                '<p>' + '<small style="font-weight: bold">'  + nameChat + '</small>'+'</p>' +
-                                '<p>' + '<small >' + lastMess_userName + ': </small>' + '<small>'  + lastMess_text + '</small>'+ '</p>' +
+                  '<span  onclick="ShowMessages()" style="cursor: pointer; color: black">' +
+                  '<li style="background:whitesmoke; border-bottom: 1px solid #ccc;">' +
+                        '<div style="word-wrap:break-word; padding: 15px 0 15px 15px;">' +
+                                '<p style="margin: 0; padding: 0">' + '<small style="font-weight: bold">'  + nameChat + '</small>'+'</p>' +
+                                '<p style="margin: 0; padding: 0">' + '<small >' + lastMess_userName + ': </small>' + '<small>'  + lastMess_text + '</small>'+ '</p>' +
                         '</div>' +
                   '</li>'+
-                  '</a>';
+                  '</span>';
 
     }else{
         control =
-                  '<a href="" style="outline: none; text-decoration: none; color: black">' +
-                      '<li style="background:white;">' +
-                            '<div style="word-wrap:break-word;  margin-top:10px; padding: 0 0 0px 15px;">' +
-                                    '<p>' + '<small style="font-weight: bold">'  + nameChat + '</small>'+'</p>' +
-                                    '<p>' + '<small >' + lastMess_userName + ': </small>' + '<small>'  + lastMess_text + '</small>'+ '</p>' +
+                  '<span  onclick="ShowMessages()" style="cursor: pointer; color: black">' +
+                      '<li style="background:white; border-bottom: 1px solid #ccc;">' +
+                            '<div style="word-wrap:break-word; padding: 15px 0 15px 15px;">' +
+                                    '<p style="margin: 0; padding: 0">' + '<small style="font-weight: bold">'  + nameChat + '</small>'+'</p>' +
+                                    '<p style="margin: 0; padding: 0">' + '<small >' + lastMess_userName + ': </small>' + '<small>'  + lastMess_text + '</small>'+ '</p>' +
                             '</div>' +
                       '</li>'+
-                  '</a>';
+                  '</span>';
     }
 
     setTimeout(
         function(){
-            $(".listChats").append(control);
+            $(".listChats").append(control).scrollTop($(".listChat").prop('scrollHeight'));;
         });
 }
 
-function getListChats(){
-      var xhr = new XMLHttpRequest();
+//-- NOTE: No use time on insertChat.
+function AddChat(nameChat) {
+    var xhr = new XMLHttpRequest();
 
       // 2. Конфигурируем его: GET-запрос на URL 'phones.json'
-      xhr.open('GET', 'http://127.0.0.1:8000/get_chats/', true);
+      xhr.open('POST', 'http://127.0.0.1:8000/POST_add_chat/', true);
 
+      // 3. Отсылаем запрос
+      data = {
+        name: nameChat,
+      }
+      data = JSON.stringify(data);
 
       xhr.onload = function(e){
           // 4. Если код ответа сервера не 200, то это ошибка
@@ -48,31 +51,42 @@ function getListChats(){
             console.log( xhr.status + ': ' + xhr.statusText ); // пример вывода: 404: Not Found
           } else {
             // вывести результат
-                console.log( xhr.responseText ); // responseText -- текст ответа.
+            console.log( xhr.responseText ); // responseText -- текст ответа.
+            var data = JSON.parse(xhr.responseText);
+            insertListChat(3, nameChat)
+            console.log(data);
+            //if() alert('wrong!')
+            //if() alert('wrong!')
+            //if() alert('wrong!')
+          }
+      }
+      xhr.send(data);
+}
+// Запрос на получение чатов из базы данных
+function getListChats(){
+      var xhr = new XMLHttpRequest();
+
+      xhr.open('GET', 'http://127.0.0.1:8000/GET_chats/', true);
+
+      xhr.onload = function(e){
+          // 4. Если код ответа сервера не 200, то это ошибка
+          if (xhr.status != 200) {
+            // обработать ошибку
+            console.log( xhr.status + ': ' + xhr.statusText ); // пример вывода: 404: Not Found
+          } else {
                 var data = JSON.parse(xhr.responseText);
                 if (data.chats != ""){
                     for (var idx = 0; idx < data.chats.length; idx++ ){
-                        insertListChat(data.name, data.last_message_status, data.last_message_user, data.last_message_user);
+                        console.log( data.chats[idx].last_message_user)
+                        insertListChat(2, data.chats[idx].name, data.chats[idx].last_message_text, data.chats[idx].last_message_status, data.chats[idx].last_message_user, );
                     }
                 }
             }
           }
-          console.log(data);
-          xhr.send();
+      xhr.send();
 }
 
-//insertListChat("Пидоры", "пошли нахуй", "не прочитано", "Никита" );
-//insertListChat("Хуесосы", "kek", "прочитано", "Паша");
-//insertListChat("Гондоны", "lol", "не прочитано", "Дима");
-//insertListChat("Жопа", "lmao", "не прочитано", "Влад");
-//insertListChat("Шлюхи", "fuck", "прочитано", "Илья");
-//insertListChat("Суки", "suck", "не прочитано", "Никита");
-//insertListChat("Гондоны", "lol", "не прочитано", "Дима");
-//insertListChat("Жопа", "lmao", "не прочитано", "Влад");
-//insertListChat("Шлюхи", "fuck", "прочитано", "Илья");
-//insertListChat("Суки", "suck", "не прочитано", "Никита");
-
-
+// функция возвращающая время
 function formatAMPM(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -84,7 +98,7 @@ function formatAMPM(date) {
     return strTime;
 }
 
-//-- No use time. It is a javaScript effect.
+//Функция добавления чата в список чатов.
 function insertChat(who, text, user){
     var control = "";
     var date = formatAMPM(new Date());
@@ -111,7 +125,7 @@ function insertChat(who, text, user){
     }
     setTimeout(
         function(){
-            $(".listMess").append(control).scrollTop($("ul").prop('scrollHeight'));
+            $(".listMess").append(control).scrollTop($(".listMess").prop('scrollHeight'));
         });
 
 }
@@ -141,26 +155,26 @@ $('.lol').click(function(){
 //-- Clear Chat
 resetChat();
 
-//-- Print Messages
-insertChat("me", "Hello Tom...");
-insertChat("you", "Hi, Pablo");
-insertChat("me", "What would you like to talk about today?");
-insertChat("you", "Tell me a joke");
-insertChat("me", "Spaceman: Computer! Computer! Do we bring battery?!");
-insertChat("you", "LOL");
+////-- Print Messages
+//insertChat("me", "Hello Tom...");
+//insertChat("you", "Hi, Pablo");
+//insertChat("me", "What would you like to talk about today?");
+//insertChat("you", "Tell me a joke");
+//insertChat("me", "Spaceman: Computer! Computer! Do we bring battery?!");
+//insertChat("you", "LOL");
 
+//Лонг-пулл запрос на отображение последних сообщений.
 function ShowLastMessage(){
       var xhr = new XMLHttpRequest();
 
-      // 2. Конфигурируем его: GET-запрос на URL 'phones.json'
       xhr.open('GET', 'http://127.0.0.1:8000/GET_unchecked_messages/', true);
 
-      // 3. Отсылаем запрос
       xhr.timeout = 60 * 1000
 
       xhr.ontimeout = function (){
-        load_new_messages();
+        ShowLastMessage();
       }
+
       xhr.onload = function(e){
           // 4. Если код ответа сервера не 200, то это ошибка
           if (xhr.status != 200) {
@@ -189,11 +203,16 @@ function ShowLastMessage(){
           xhr.send();
 }
 
+//Запрос на отображение всех сообщений из базы данных.
 function ShowMessages(){
       var xhr = new XMLHttpRequest();
 
-      // 2. Конфигурируем его: GET-запрос на URL 'phones.json'
-      xhr.open('GET', 'http://127.0.0.1:8000/GET_messages/', true);
+      xhr.open('POST', 'http://127.0.0.1:8000/get_messages/', true);
+
+      data = {
+        id: 2,
+      }
+      data = JSON.stringify(data);
 
       xhr.onload = function(e){
           // 4. Если код ответа сервера не 200, то это ошибка
@@ -207,17 +226,18 @@ function ShowMessages(){
                 if (data.messages != ""){
                     for (var idx = 0; idx < data.messages.length; idx++ ){
                         if (data.messages[idx].my == "True"){
-                            insertChat("me", data.messages[idx].text, user);
+                            insertChat("me", data.messages[idx].text, data.messages[idx].user);
                         }
                         else{
-                            insertChat("you", data.messages[idx].text, user);
+                            insertChat("you", data.messages[idx].text, data.messages[idx].user);
                         }
                     }
                 }
             }
-          }
-            xhr.send();
       }
+      xhr.send(data);
+}
+
 function SendMessage(mytxt) {
     if (mytxt == 'kek') alert('lol');
 
@@ -229,7 +249,6 @@ function SendMessage(mytxt) {
       // 3. Отсылаем запрос
       data = {
         text: mytxt,
-        chat: pass,
       }
       data = JSON.stringify(data);
 
@@ -252,4 +271,3 @@ function SendMessage(mytxt) {
 }
 
 
-//-- NOTE: No use time on insertChat.

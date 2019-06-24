@@ -18,23 +18,72 @@
 
     <title>TestTask</title>
   </head>
-  <body style="background:whitesmoke;">
+  <body style="background:whitesmoke;"  onload="getListChats()">
 
 <!-- no additional media querie or css is required -->
 <div class="container" >
         <div class="row justify-content-center">
+                <div class="col-sm-3">
+                    <div class="infoChat">
+                        <button type="button" class="btn" style="display: flex; margin: 0 auto;" data-toggle="modal" data-target="#exampleModal">
+                              добавить чат
+                        </button>
 
-                <div class="blockChats">
-                    <div class="">
-                        <ul class="listChats"></ul>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Введите наименование чата</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <input type="text" class="form-control" name="username" id="nameChat">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="AddChat(nameChat.value)">Добавить</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                    </div>
+                    <div class="blockChats">
+                        <div class="">
+                            <ul class="listChats"></ul>
+                        </div>
                     </div>
                 </div>
-
             <div class="col justify-content-center align-items-center">
                 <div class="col-sm-12 infoChat ">
                     <div style="padding: 8px;">
                         <span >наименование чата: </span>
-                        <a href="" class="float-right">выйти из ситсемы</a>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn float-right" style="padding: 0 5px 0 5px" data-toggle="modal" data-target="#exampleModal">
+                          добавить пользователей
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Введите логин пользователя</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <input type="text" class="form-control" name="username" id="log">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Добавить</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                 </div>
 

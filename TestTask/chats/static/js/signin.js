@@ -20,10 +20,9 @@ function auth(log, pass) {
             // вывести результат
             console.log( xhr.responseText ); // responseText -- текст ответа.
             var data = JSON.parse(xhr.responseText);
-            console.log(data);
-            //if() alert('wrong!')
-            //if() alert('wrong!')
-            //if() alert('wrong!')
+            if(data.message == "0") document.location.href = "http://127.0.0.1:8000";
+            else if (data.message == "wrong login") alert('Неккоректный логин!');
+            else alert('Неккоректный пароль!');
           }
       }
       xhr.send(data);

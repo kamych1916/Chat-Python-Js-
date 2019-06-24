@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import *
 import datetime
+import time
 
 @csrf_exempt
 def sign_in(request):
@@ -29,7 +30,7 @@ def sign_in(request):
                            ip=ip
                            )
         session.save()
-        return redirect("/")
+        return JsonResponse({"message":"0"})
     else:
         return JsonResponse({"message": "wrong password"})
     # except:
@@ -58,7 +59,7 @@ def sign_up(request):
                         email=email,
                         password=password)
             user.save()
-            return JsonResponse({"message":"all right "})
+            return JsonResponse({"message":"0"})
 
 def sign_up_view(request):
     return render(request, "chats/signup.html", {})
@@ -137,7 +138,7 @@ def get_chats(request):
             else:
                 last_message_status = "unchecked"
             u = message.id_user
-            last_message_user = user.login
+            last_message_user = user.username
         else:
             last_message_text = ""
             last_message_status = ""
@@ -192,19 +193,10 @@ def add_user_to_chat(request):
     try:
         chat = Chats.objects.get(id=int(chat_id))
     except:
-        return JsonResponse({"message"@csrf_exempt})
-
-
-def get_messages(request):
-    ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
-    try:
-        session = Sessions.objects.get(ip=ip)
-    except:
-        return redirect('/sign_in')
-    : "error"})
+        return JsonResponse({"message" : "error"})
     user = session.user
     try:
-        ch_us = Chats_Users.objects.get(id_user = user,id_chat = chat)
+        ch_us = Chats_Users.objects.get(id_user=user, id_chat=chat)
     except:
         return JsonResponse({"message": "error"})
     try:
@@ -212,26 +204,91 @@ def get_messages(request):
     except:
         return JsonResponse({"message": "user does not exist"})
     try:
-        ch_us = Chats_Users.objects.get(id_user = user2,id_chat = chat)
+        ch_us = Chats_Users.objects.get(id_user=user2, id_chat=chat)
         return JsonResponse({"message": "user already in chat"})
     except:
         pass
     ch_us = Chats_Users(
-                    id_user = user2,
-                    id_chat = chat
-                    )
+        id_user=user2,
+        id_chat=chat
+    )
     ch_us.save()
     return JsonResponse({"message": "all right"})
 
-# @csrf_exempt
-# def get_messages(request):
-#     ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
-#     try:
-#         session = Sessions.objects.get(ip=ip)
-#     except:
-#         return redirect('/sign_in')
-#     data = request.body.decode()
-#     data = json.loads(data)
-#     chat_id = data["id"]
-#     try:
-#         m = Messages.objects.get()
+@csrf_exempt
+def get_messages(request):
+    ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    try:
+        session = Sessions.objects.get(ip=ip)
+    except:
+        return redirect('/sign_in')
+    data = request.body.decode()
+    data = json.loads(data)
+    chat_id = data["id"]
+
+    try:
+        m = Messages.objects.filter(id_chat=Chats.objects.get(id=int(chat_id)))
+    except:
+        m = []
+    resp = []
+    for mess in m:
+        us = mess.id_user
+        my = (us == session.user)
+        print(str(my))
+        message_resp = {
+                            "text": mess.text,
+                            "user": us.username,
+                            "time": mess.time,
+                            "my": str(my)
+                        }
+        resp.append(message_resp)
+        if not mess.checked:
+            mess.checked = True
+            mess.save()
+    return JsonResponse({"messages":resp})
+
+@csrf_exempt
+def get_unchecked_messages(request):
+    ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    try:
+        session = Sessions.objects.get(ip=ip)
+    except:
+        return redirect('/sign_in')
+    user = session.user
+    data = request.body.decode()
+    data = json.loads(data)
+    chat_id= data["id"]
+    chat=Chats.objects.get(id=chat_id)
+    um = None
+    start = time.monotonic()
+    now = time.monotonic()
+    x = 0
+    while ((um == None or list(um) == []) and x<10):
+        try:
+            um = Messages.objects.filter(id_user=user,checked=False,id_chat=chat)
+
+        except:
+            um = None
+
+        if um != None:
+            resp = []
+            for mes in um:
+                us = mes.id_user
+                my = (us == user)
+                un_mes = {
+                            "text": mes.text,
+                            "user": us.username,
+                            "time": mes.time,
+                            "my": str(my)
+                        }
+                mes.checked = True
+                mes.save()
+                resp.append(un_mes)
+
+            if resp != []:
+                return JsonResponse({"messages":resp})
+        now = time.monotonic()
+        x= '{:>9.2f}'.format(now - start)
+        x = float(x)
+        #print(x)
+    return JsonResponse({"":""})

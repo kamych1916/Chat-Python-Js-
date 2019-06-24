@@ -23,7 +23,9 @@ function regist(mail, log, pass1, pass2) {
             // вывести результат
             console.log( xhr.responseText ); // responseText -- текст ответа.
             var data = JSON.parse(xhr.responseText);
-            console.log(data);
+            if(data.message == "0") document.location.href = "http://127.0.0.1:8000/sign_in/";
+            else if (data.message == "login already used") alert('Введенный вами логин уже существует!');
+            else alert('Введенная вами почта уже существует!');
           }
       }
       xhr.send(data);
