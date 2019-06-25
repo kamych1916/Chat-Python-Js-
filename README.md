@@ -12,8 +12,9 @@
 
 ## Install project
 * Python 3.6+
-* Clone this git repositorie to your PC
-* Write in terminal - python manage.py runserver
+* Clone this git-repositorie to your PC
+* For first write in terminal: pip install -r requirements.txt
+* And write: python manage.py runserver
 
 ## A few words about the project
 * Web-design is not great, there are a lot of problems with cross-browser
