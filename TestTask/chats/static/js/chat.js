@@ -55,7 +55,7 @@ function giveIdChat(idd){
       xhr.send(data);
 }
 
-// Запрос на получение чатов из базы данных, запуск лонг пулл запроса и отображение всех сообщений по заданному id
+//Запрос на получение чатов из базы данных, запуск лонг пулл запроса и отображение всех сообщений по заданному id
 function getListChats(){
       var xhr = new XMLHttpRequest();
       xhr.open('GET', 'http://127.0.0.1:8000/GET_chats/', true);
@@ -131,7 +131,7 @@ function AddUserChat(loginUser) {
     xhr.send(data);
 }
 
-// функция возвращающая время
+// Функция возвращающая время
 function formatAMPM(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();

@@ -116,11 +116,10 @@ def get_chats(request):
             message = list(Messages.objects.filter(id_chat=chat.id))
         except:
             message = None
-
         if (message != None and len(message)>0):
             message = message[len(message)-1]
             last_message_text = message.text
-            if message.checked:
+            if str(user.id) in message.us_check.split():
                 last_message_status = "checked"
             else:
                 last_message_status = "unchecked"
@@ -153,7 +152,7 @@ def add_message(request):
     text = data["text"]
     user = session.user
     time = datetime.datetime.now()
-    time = str(time.hour) +"."+str(time.minute)
+    time = str(time.hour) + "." +str(time.minute)
     message = Messages(
         id_chat = Chats.objects.get(id=int(session.chat)),
         id_user = user,
@@ -232,7 +231,6 @@ def get_messages(request):
                     mess.checked = True
                     mess.save()
     if session.chat != "":
-
         chat = Chats.objects.get(id=int(session.chat))
         name = chat.name
     else:
