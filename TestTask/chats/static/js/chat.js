@@ -250,7 +250,7 @@ function ShowLastMessage(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://127.0.0.1:8000/get_unchecked_messages/', true);
     data = {
-        id: 1
+        id: 1,
     }
     data = JSON.stringify(data);
     xhr.timeout = 60 * 1000

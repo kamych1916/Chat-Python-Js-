@@ -83,7 +83,6 @@ def chat_view(request):
 def add_chat(request):
     data = request.body.decode()
     ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
-
     data = json.loads(data)
     name = data["name"]
     try:
