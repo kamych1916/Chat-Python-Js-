@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e24c654-c25f-4132-85aa-1667b3bf4cca" name="Default Changelist" comment="V1">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,7 +42,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TestTask/chats/static/js/chat.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-36">
+            <state relative-caret-position="-441">
               <caret line="135" column="32" selection-start-line="135" selection-start-column="32" selection-end-line="135" selection-end-column="32" />
             </state>
           </provider>
@@ -199,50 +198,6 @@
               <item name="TestTask" type="b2602c69:ProjectViewProjectNode" />
               <item name="TestTask" type="462c0819:PsiDirectoryNode" />
               <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TestTask" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="chats" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TestTask" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="chats" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TestTask" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="chats" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TestTask" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="chats" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TestTask" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="chats" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="TestTask" type="b2602c69:ProjectViewProjectNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="TestTask" type="462c0819:PsiDirectoryNode" />
-              <item name="chats" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="chats" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -526,7 +481,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/TestTask/chats/static/js/chat.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-36">
+        <state relative-caret-position="-441">
           <caret line="135" column="32" selection-start-line="135" selection-start-column="32" selection-end-line="135" selection-end-column="32" />
         </state>
       </provider>
