@@ -16,7 +16,6 @@ def sign_in(request):
         session.delete()
     except:
         pass
-    print(ip)
     data = json.loads(data)
     login = data["login"]
     password = data["password"]
@@ -24,17 +23,20 @@ def sign_in(request):
         user = User.objects.get(username=login)
     except:
         return JsonResponse({"message": "wrong login"})
-    print(user.id)
     if user.password == password:
         session = Sessions(user=user,
                            ip=ip
                            )
         session.save()
+        try:
+            m = list(Messages.objects.filter(id_user=user))
+            session.chat = str(m[0].id_chat.id)
+            session.save()
+        except:
+            pass
         return JsonResponse({"message":"0"})
     else:
         return JsonResponse({"message": "wrong password"})
-    # except:
-    #     return JsonResponse({"message": "wrong login"})
 
 def sign_in_view(request):
     return render(request, "chats/signin.html", {})
@@ -64,8 +66,6 @@ def sign_up(request):
 def sign_up_view(request):
     return render(request, "chats/signup.html", {})
 
-
-
 @csrf_exempt
 def sign_out(request):
     ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -76,14 +76,6 @@ def sign_out(request):
     session.delete()
     return JsonResponse({"":"deleted"})
 
-@csrf_exempt
-def chat(request):
-    data = request.body.decode()
-    data = json.loads(data)
-    login = data["login"]
-    password = data["password"]
-
-
 def chat_view(request):
     return render(request, "chats/chat.html", {})
 
@@ -91,8 +83,6 @@ def chat_view(request):
 def add_chat(request):
     data = request.body.decode()
     ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
-
-    print(ip)
 
     data = json.loads(data)
     name = data["name"]
@@ -126,11 +116,12 @@ def get_chats(request):
         name = chat.name
         id=str(chat.id)
         try:
-            message = Messages.objects.get(id_chat=chat.id)
+            message = list(Messages.objects.filter(id_chat=chat.id))
         except:
             message = None
 
-        if message != None:
+        if (message != None and len(message)>0):
+            message = message[len(message)-1]
             last_message_text = message.text
             if message.checked:
                 last_message_status = "checked"
@@ -150,7 +141,6 @@ def get_chats(request):
             "last_message_status": last_message_status,
             "last_message_user": last_message_user
         }
-        print("last_message_status: ",last_message_status)
         resp.append(cht)
     return JsonResponse({"chats":resp})
 
@@ -176,7 +166,6 @@ def add_message(request):
     message.save()
     return JsonResponse({"message":"allright"})
 
-
 @csrf_exempt
 def add_user_to_chat(request):
     ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -191,12 +180,12 @@ def add_user_to_chat(request):
     try:
         chat = Chats.objects.get(id=int(chat_id))
     except:
-        return JsonResponse({"message" : "error"})
+        return JsonResponse({"message" : "error1"})
     user = session.user
     try:
         ch_us = Chats_Users.objects.get(id_user=user, id_chat=chat)
     except:
-        return JsonResponse({"message": "error"})
+        return JsonResponse({"message": "error2"})
     try:
         user2 = User.objects.get(username=login)
     except:
@@ -229,7 +218,6 @@ def get_messages(request):
     for mess in m:
         us = mess.id_user
         my = (us == session.user)
-        print(str(my))
         message_resp = {
                             "text": mess.text,
                             "user": us.username,
@@ -246,8 +234,14 @@ def get_messages(request):
                 if len(s.split()) == Chats_Users.objects.filter(id_chat = Chats.objects.get(id=int(session.chat))).count():
                     mess.checked = True
                     mess.save()
-    print(resp)
-    return JsonResponse({"messages":resp})
+    if session.chat != "":
+
+        chat = Chats.objects.get(id=int(session.chat))
+        name = chat.name
+    else:
+        name = ""
+    return JsonResponse({"messages": resp,
+                         "name_chat": name})
 
 @csrf_exempt
 def get_unchecked_messages(request):
@@ -258,8 +252,7 @@ def get_unchecked_messages(request):
         return redirect('/sign_in')
     user = session.user
 
-
-    if session.id != "":
+    if session.chat != "":
         chat=Chats.objects.get(id=int(session.chat))
     else:
         return JsonResponse({"message":"ch ne vibran"})
@@ -270,20 +263,16 @@ def get_unchecked_messages(request):
     while ((um == None or list(um) == []) and x<60):
         try:
             um = list(Messages.objects.filter(checked=False,id_chat=chat))#Chats.objects.get(id=int(session.chat))))
-
         except:
             um = []
-
         if um != []:
             resp = []
             for mes in um:
-
                 s = mes.us_check
                 if not (str(session.user.id) in s.split()):
                     mes.us_check += " " + str(session.user.id)
                     mes.save()
                     us = mes.id_user
-
                     my = (us == user)
                     un_mes = {
                         "text": mes.text,
@@ -298,15 +287,11 @@ def get_unchecked_messages(request):
                         mes.save()
                 else:
                     um = []
-
-
             if resp != []:
-
                 return JsonResponse({"messages":resp})
         now = time.monotonic()
         x= '{:>9.2f}'.format(now - start)
         x = float(x)
-
     return JsonResponse({"messages":[]})
 
 @csrf_exempt
