@@ -294,7 +294,6 @@ function logOut(){
         if (xhr.status != 200) {
           console.log( xhr.status + ': ' + xhr.statusText ); // пример вывода: 404: Not Found
         } else {
-          console.log( xhr.responseText );
           var data = JSON.parse(xhr.responseText);
           console.log(data);
           if (data != ""){

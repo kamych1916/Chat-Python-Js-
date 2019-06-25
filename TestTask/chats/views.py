@@ -90,9 +90,7 @@ def add_chat(request):
     except:
         return redirect('/sign_in')
     user = session.user
-    ch = Chats(
-        name=name,
-    )
+    ch = Chats(name=name)
     ch.save()
     ch_us = Chats_Users(
         id_chat=ch,
